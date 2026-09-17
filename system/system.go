@@ -37,10 +37,14 @@ type System struct {
 	NewInterface   func(context.Context, string, *System, util2.Config) Interface
 	NewHTTP        func(context.Context, string, *System, util2.Config) HTTP
 	NewRegistry    func(context.Context, string, *System, util2.Config) Registry
+	NewIGMP        func(context.Context, string, *System, util2.Config) IGMP
 	ports          map[string][]GOnetstat.Process
 	portsOnce      sync.Once
 	procMap        map[string][]ps.Process
 	procOnce       sync.Once
+	igmp           []igmpEntry
+	igmpOnce       sync.Once
+	igmpErr        error
 }
 
 func (s *System) Ports() map[string][]GOnetstat.Process {
@@ -76,6 +80,7 @@ func New(packageManager string) *System {
 		NewInterface:   NewDefInterface,
 		NewHTTP:        NewDefHTTP,
 		NewRegistry:    NewDefRegistry,
+		NewIGMP:        NewDefIGMP,
 	}
 
 	sys.detectService()

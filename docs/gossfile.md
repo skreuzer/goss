@@ -125,6 +125,7 @@ with arguments such as:
 * [gossfile](#gossfile)
 * [group](#group)
 * [http](#http)
+* [igmp](#igmp)
 * [interface](#interface)
 * [kernel-param](#kernel-param)
 * [matching](#matching)
@@ -429,6 +430,43 @@ http:
 
 !!! note
     only the first `Host` header will be used to set the `Request.Host` value if multiple are provided.
+
+### igmp
+
+Validates IPv4 multicast group membership, as reported by `/proc/net/igmp`.
+
+```yaml
+igmp:
+  # group on any interface
+  224.0.0.251:
+    # required attributes
+    exists: true
+    # optional attributes
+    interface: eth0
+    version: 3
+    users: 1
+    skip: false
+  # group on a specific interface
+  eth1:239.1.2.3:
+    exists: true
+```
+
+The hash key is `[interface:]group`. Without an interface the group is looked up
+on every interface. All attributes support the usual [matchers](#matching).
+
+* `interface` - interface the group is joined on
+* `version` - IGMP version in use on the interface (1, 2 or 3)
+* `users` - number of sockets joined to the group
+
+!!! note
+    A group such as `224.0.0.1` (all hosts) is joined on every interface. With a
+    bare group key `exists` still passes, but `interface`, `version` and `users`
+    fail with an error naming the interfaces; qualify the key, for example
+    `eth0:224.0.0.1`, to test one of them.
+
+!!! warning
+    This resource is Linux only; on other platforms every attribute fails with
+    an error.
 
 ### interface
 

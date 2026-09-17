@@ -275,6 +275,31 @@ definitions:
           - CONNECT
           - OPTIONS
           - TRACE
+  igmpTest:
+    description: |
+      Validates IPv4 multicast group membership, as reported by /proc/net/igmp.
+      Linux only. The hash key is `[interface:]group`.
+    required:
+      - exists
+    properties:
+      title: { "$ref":"#/definitions/title" }
+      meta: { "$ref":"#/definitions/meta" }
+      exists:
+        type: boolean
+        default: true
+      interface:
+        type: string
+      version:
+        type: integer
+        enum:
+          - 1
+          - 2
+          - 3
+      users:
+        type: integer
+      skip:
+        type: boolean
+        default: false
   interfaceTest:
     required:
       - exists
@@ -676,6 +701,12 @@ properties:
     description: "description: Validates network interface values"
     additionalProperties:
       $ref: "#/definitions/httpTest"
+
+  igmp:
+    type: object
+    description: "Validates IPv4 multicast group membership. Linux only."
+    additionalProperties:
+      $ref: "#/definitions/igmpTest"
 
   interface:
     type: object

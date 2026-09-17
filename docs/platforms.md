@@ -90,6 +90,7 @@ This matrix attempts to track parity across platforms.
 |                     | body                | {{ fully_supported }}   | {{ work_partially }}   | {{ work_partially }}    |
 |                     | username            | {{ fully_supported }}   | {{ not_automated }}    | {{ work_partially }}    |
 |                     | password            | {{ fully_supported }}   | {{ not_automated }}    | {{ work_partially }}    |
+| **igmp**            |                     | {{ fully_supported }}   | {{ n_a }}              | {{ n_a }}               |
 | **interface**       |                     | {{ fully_supported }}   | {{ not_implemented }}  | {{ not_implemented }}   |
 |                     | exists              | {{ fully_supported }}   | {{ not_implemented }}  | {{ not_implemented }}   |
 |                     | addrs               | {{ fully_supported }}   | {{ not_implemented }}  | {{ not_implemented }}   |

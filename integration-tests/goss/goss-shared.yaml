@@ -216,6 +216,14 @@ interface:
     addrs:
       contain-element:
         have-prefix: '172.'
+igmp:
+  lo:224.0.0.1:
+    exists: true
+    interface: lo
+    users:
+      gt: 0
+  239.255.0.1:
+    exists: false
 http:
   {{ if index .Vars .Env.OS "proxy" }}
   http://httpbin/anything:

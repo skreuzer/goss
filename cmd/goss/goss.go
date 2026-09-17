@@ -425,6 +425,14 @@ func main() {
 						},
 					},
 					{
+						Name:  resource.IGMPResourceKey,
+						Usage: "add new igmp [interface:]group - ex: 224.1.2.3 or eth0:224.1.2.3",
+						Action: func(ctx context.Context, c *cli.Command) error {
+							fatalAlphaIfNeeded(c)
+							return goss.AddResources(ctx, c.String("gossfile"), resource.IGMPResourceName, c.Args().Slice(), newRuntimeConfigFromCLI(c))
+						},
+					},
+					{
 						Name:  resource.RegistryResourceKey,
 						Usage: "add new registry key",
 						Action: func(ctx context.Context, c *cli.Command) error {

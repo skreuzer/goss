@@ -1630,3 +1630,104 @@ func (ret *RegistryMap) UnmarshalYAML(unmarshal func(v interface{}) error) error
 	*ret = tmp
 	return nil
 }
+
+type IGMPMap map[string]*IGMP
+
+func (r IGMPMap) AppendSysResource(ctx context.Context, sr string, sys *system.System, config util.Config) (*IGMP, error) {
+	ctx = context.WithValue(ctx, idKey{}, sr)
+	sysres := sys.NewIGMP(ctx, sr, sys, config)
+	res, err := NewIGMP(sysres, config)
+	if err != nil {
+		return nil, err
+	}
+	if old_res, ok := r[res.ID()]; ok {
+		res.Title = old_res.Title
+		res.Meta = old_res.Meta
+	}
+	r[res.ID()] = res
+	return res, nil
+}
+
+func (r IGMPMap) AppendSysResourceIfExists(ctx context.Context, sr string, sys *system.System) (*IGMP, system.IGMP, bool, error) {
+	ctx = context.WithValue(ctx, idKey{}, sr)
+	sysres := sys.NewIGMP(ctx, sr, sys, util.Config{})
+	res, err := NewIGMP(sysres, util.Config{})
+	if err != nil {
+		return nil, nil, false, err
+	}
+	if e, _ := sysres.Exists(); !e {
+		return res, sysres, false, nil
+	}
+	if old_res, ok := r[res.ID()]; ok {
+		res.Title = old_res.Title
+		res.Meta = old_res.Meta
+	}
+	r[res.ID()] = res
+	return res, sysres, true, nil
+}
+
+func (ret *IGMPMap) UnmarshalJSON(data []byte) error {
+	// Curried json.Unmarshal
+	unmarshal := func(i interface{}) error {
+		if err := json.Unmarshal(data, i); err != nil {
+			return err
+		}
+		return nil
+	}
+
+	// Validate configuration
+	zero := IGMP{}
+	whitelist, err := util.WhitelistAttrs(zero, util.JSON)
+	if err != nil {
+		return err
+	}
+	if err := util.ValidateSections(unmarshal, zero, whitelist); err != nil {
+		return err
+	}
+
+	var tmp map[string]*IGMP
+	if err := unmarshal(&tmp); err != nil {
+		return err
+	}
+
+	typ := reflect.TypeOf(zero)
+	typs := strings.Split(typ.String(), ".")[1]
+	for id, res := range tmp {
+		if res == nil {
+			return fmt.Errorf("Could not parse resource %s:%s", typs, id)
+		}
+		res.SetID(id)
+	}
+
+	*ret = tmp
+	return nil
+}
+
+func (ret *IGMPMap) UnmarshalYAML(unmarshal func(v interface{}) error) error {
+	// Validate configuration
+	zero := IGMP{}
+	whitelist, err := util.WhitelistAttrs(zero, util.YAML)
+	if err != nil {
+		return err
+	}
+	if err := util.ValidateSections(unmarshal, zero, whitelist); err != nil {
+		return err
+	}
+
+	var tmp map[string]*IGMP
+	if err := unmarshal(&tmp); err != nil {
+		return err
+	}
+
+	typ := reflect.TypeOf(zero)
+	typs := strings.Split(typ.String(), ".")[1]
+	for id, res := range tmp {
+		if res == nil {
+			return fmt.Errorf("Could not parse resource %s:%s", typs, id)
+		}
+		res.SetID(id)
+	}
+
+	*ret = tmp
+	return nil
+}

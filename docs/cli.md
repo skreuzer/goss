@@ -130,6 +130,7 @@ A sub-command *resource type* has to be provided when running `add`.
 | [`goss`](gossfile.md#gossfile)             | Includes the contents of another [gossfile](gossfile.md)                                                                        |
 | [`group`](gossfile.md#group)               | can validate the existence and values of a [group](gossfile.md#group) on the system                                             |
 | [`http`](gossfile.md#http)                 | Validate the HTTP response code, headers, and content of a URI                                                                  |
+| [`igmp`](gossfile.md#igmp)                 | Validate IPv4 multicast group membership (Linux only)                                                                           |
 | [`interface`](gossfile.md#interface)       | Validate the existence and values (es. the addresses) of a network interface                                                    |
 | [`kernel-param`](gossfile.md#kernel-param) | Validate kernel parameters (sysctl values)                                                                                      |
 | [`mount`](gossfile.md#mount)               | Validate the existence and options relative to a [mount](gossfile.md#mount) point                                               |
@@ -165,6 +166,7 @@ Will **NOT** automatically add:
 * `command` - for safety
 * `dns`
 * `http`
+* `igmp`
 * `interface`
 * `kernel-param`
 * `mount`
