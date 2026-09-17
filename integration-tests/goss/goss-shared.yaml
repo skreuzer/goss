@@ -216,6 +216,16 @@ interface:
     addrs:
       contain-element:
         have-prefix: '172.'
+route:
+  127.0.0.0/8:
+    exists: true
+    interface: lo
+    protocol: kernel
+    scope: host
+    type: local
+    table: 255
+  192.0.2.0/24:
+    exists: false
 http:
   {{ if index .Vars .Env.OS "proxy" }}
   http://httpbin/anything:

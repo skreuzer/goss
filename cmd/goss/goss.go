@@ -425,6 +425,14 @@ func main() {
 						},
 					},
 					{
+						Name:  resource.RouteResourceKey,
+						Usage: "add new route destination - ex: 0.0.0.0/0 or 10.0.0.0/8",
+						Action: func(ctx context.Context, c *cli.Command) error {
+							fatalAlphaIfNeeded(c)
+							return goss.AddResources(ctx, c.String("gossfile"), resource.RouteResourceName, c.Args().Slice(), newRuntimeConfigFromCLI(c))
+						},
+					},
+					{
 						Name:  resource.RegistryResourceKey,
 						Usage: "add new registry key",
 						Action: func(ctx context.Context, c *cli.Command) error {

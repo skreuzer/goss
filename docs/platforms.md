@@ -115,6 +115,7 @@ This matrix attempts to track parity across platforms.
 |                     | ip                  | {{ fully_supported }}   |  {{ no_data }}         | {{ no_data }}           |
 | **process**         |                     | {{ fully_supported }}   | {{ work_partially }}   | {{ work_partially }}    |
 |                     | running             | {{ fully_supported }}   | {{ work_partially }}   | {{ work_partially }}    |
+| **route**           |                     | {{ fully_supported }}   | {{ n_a }}              | {{ n_a }}               |
 | **service**         |                     | {{ fully_supported }}   | {{ not_implemented }}  | {{ not_implemented }}   |
 |                     | enabled             | {{ fully_supported }}   | {{ not_implemented }}  | {{ not_implemented }}   |
 |                     | running             | {{ fully_supported }}   | {{ not_implemented }}  | {{ not_implemented }}   |

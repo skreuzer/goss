@@ -136,6 +136,7 @@ A sub-command *resource type* has to be provided when running `add`.
 | [`package`](gossfile.md#package)           | Validate the status of a [package](gossfile.md#package) using the package manager specified on the commandline with `--package` |
 | [`port`](gossfile.md#port)                 | Validate the status of a local [port](gossfile.md#port), for example `80` or `udp:123`                                          |
 | [`process`](gossfile.md#process)           | Validate the status of a [process](gossfile.md#process)                                                                         |
+| [`route`](gossfile.md#route)               | Validate an entry in the kernel routing table (Linux only)                                                                      |
 | [`service`](gossfile.md#service)           | Validate if a [service](gossfile.md#service) is running and/or enabled at boot                                                  |
 | [`user`](gossfile.md#user)                 | Validate the existence and values of a [user](gossfile.md#user) on the system                                                   |
 
@@ -168,6 +169,7 @@ Will **NOT** automatically add:
 * `interface`
 * `kernel-param`
 * `mount`
+* `route`
 
 !!! example
     ```console

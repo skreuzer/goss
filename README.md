@@ -336,6 +336,7 @@ JSON Schema maintains a [table of validators](https://json-schema.org/tools?quer
 * kernel-param - add new kernel-param
 * mount - add new mount
 * interface - add new network interface
+* route - add new routing table entry - ex: 0.0.0.0/0 (Linux only)
 * http - add new network http url with proxy support
 * goss - add new goss file, it will be imported from this one
 * matching - test for matches in supplied content

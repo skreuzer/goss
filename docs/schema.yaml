@@ -435,6 +435,35 @@ definitions:
       running:
         type: boolean
         default: true
+  routeTest:
+    description: |
+      Validates an entry in the kernel routing table. Linux only.
+      The hash key is the destination prefix in CIDR notation.
+    required:
+      - exists
+    properties:
+      title: { "$ref":"#/definitions/title" }
+      meta: { "$ref":"#/definitions/meta" }
+      exists:
+        type: boolean
+        default: true
+      gateway:
+        type: string
+      interface:
+        type: string
+      metric:
+        type: integer
+      protocol:
+        type: string
+      scope:
+        type: string
+      type:
+        type: string
+      table:
+        type: integer
+      skip:
+        type: boolean
+        default: false
   serviceTest:
     required:
       - enabled
@@ -843,6 +872,12 @@ properties:
     description: "Validates if a process is running."
     additionalProperties:
       $ref: "#/definitions/processTest"
+
+  route:
+    type: object
+    description: "Validates an entry in the kernel routing table. Linux only."
+    additionalProperties:
+      $ref: "#/definitions/routeTest"
 
   service:
     type: object

@@ -132,6 +132,7 @@ with arguments such as:
 * [package](#package)
 * [port](#port)
 * [process](#process)
+* [route](#route)
 * [service](#service)
 * [user](#user)
 
@@ -634,6 +635,50 @@ process:
 
     For example, a process with the name `nginx: master process /usr/sbin/nginx` would be checked with the process `nginx`.
     To discover the binary of a pid run `cat -E /proc/<PID>/comm`.
+
+### route
+
+Validates an entry in the kernel routing table, as reported by `ip route show table all`.
+
+```yaml
+route:
+  0.0.0.0/0:
+    # required attributes
+    exists: true
+    # optional attributes
+    gateway: 192.168.1.1
+    interface: eth0
+    metric: 100
+    protocol: static
+    scope: global
+    type: unicast
+    table: 254
+    skip: false
+```
+
+The hash key is the destination prefix in CIDR notation. A bare address is a host
+route (`/32` or `/128`) and `default` is an alias for `0.0.0.0/0`. IPv6 prefixes are
+supported. All attributes support the usual [matchers](#matching).
+
+* `gateway` - next hop address, empty for directly connected routes
+* `interface` - output interface name
+* `metric` - route metric (netlink priority), `0` when unset
+* `protocol` - `unspec`, `redirect`, `kernel`, `boot`, `static`, `gated`, `ra`, `mrt`, `zebra`, `bird`, `dnrouted`, `xorp`, `ntk`, `dhcp`, `mrouted`, `keepalived`, `babel`, `openr`, `bgp`, `isis`, `ospf`, `rip`, `eigrp`
+* `scope` - `global`, `site`, `link`, `host`, `nowhere`
+* `type` - `unspec`, `unicast`, `local`, `broadcast`, `anycast`, `multicast`, `blackhole`, `unreachable`, `prohibit`, `throw`, `nat`, `xresolve`
+* `table` - routing table id (`254` main, `255` local)
+
+Unknown protocol, scope or type values are reported as their numeric id, as
+`ip route` does.
+
+!!! note
+    Routes are read from every routing table, so entries in the `local` table such
+    as `127.0.0.0/8` are visible. Cached (per-lookup) routes are not included, and
+    `gateway` and `interface` are empty for multipath routes.
+
+!!! warning
+    This resource is Linux only; on other platforms every attribute fails with
+    an error.
 
 ### service
 
